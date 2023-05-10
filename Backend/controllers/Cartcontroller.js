@@ -4,28 +4,37 @@ const Addcart = async (req, res) => {
   try {
     const { customer, product, product_quantity } = req.body;
 
-    // Check if required fields are present
-    if (!customer || !product || !product_quantity) {
-      return res.status(400).send('Customer, product, and product quantity are required');
+    if (!customer) {
+      return res.status(400).send('customer is required');
     }
 
-    // Create a new cart item using the request body
-    const cartItem = new cartModel({
-      customer,
-      product_quantity,
-      product
-    });
+    let cart = await cartModel.findOne({ customer });
 
-    // Save the cart item to the database
-    const savedCartItem = await cartItem.save();
+    if (!cart) {
+      // Cart doesn't exist for this customer, create a new one
+      cart = new cartModel({
+        customer,
+        product_quantity,
+         product
+      });
+    } else {
+      // Cart exists for this customer, update the product if it already exists, otherwise add it to the cart
+      const existingProduct = cart.products.find(p => p.product === product);
+      if (existingProduct) {
+        existingProduct.product_quantity = product_quantity;
+      } else {
+        cart.products.push({ product, product_quantity });
+      }
+    }
 
-    // Send a success response with the saved cart item
-    res.status(201).json(savedCartItem);
+    await cart.save();
+    return res.json(cart);
   } catch (error) {
-    console.log('Error:', error);
-    res.status(500).send('Internal server error');
+    console.log('error', error);
+    return res.status(500).send('Internal Server Error');
   }
 };
+
 
 
 
