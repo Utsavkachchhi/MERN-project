@@ -72,6 +72,7 @@ const ProductComponent = () => {
 
   const dispatch = useDispatch();
   const products = useSelector((state) => state.allProducts.products);
+
   const [product, setProduct] = useState();
 
   useEffect(() => {
@@ -96,7 +97,6 @@ const ProductComponent = () => {
   }, []);
 
   useEffect(() => {
-    console.log("filterdata");
     setProduct(filterdata);
   }, [filterdata]);
 
@@ -113,12 +113,10 @@ const ProductComponent = () => {
   // checkbox
   const handleChange = (e, id) => {
     let myArr = [...state];
-    console.log("myarr", myArr);
     // console.log(myArr[id].checked)
     // console.log(!myArr[id].checked);
     myArr[id].checked = !myArr[id].checked;
     setState(myArr);
-    console.log("state", state);
 
     if (myArr[id].name === "All" && myArr[id].checked === true) {
       const newArr = state.map((myitem) => myitem.value);

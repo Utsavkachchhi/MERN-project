@@ -14,11 +14,12 @@ import { Rating, Typography, Button, Grid } from "@mui/material";
 const ProductDetails = () => {
   const { productId } = useParams();
   let product = useSelector((state) => state.product);
-  console.log("my product",product);
   const { id, image, title, price, category, description, rating } = product;
   const dispatch = useDispatch();
   const [hide, setHide] = useState(true);
   const carts = useSelector((state) => state.handleCart);
+  const customer = useSelector((state) => state.auths.auths.data.id)
+
   const [loggedIn, setLoggedIn] = useState(false);
   const [rate, setRate] = useState(0);
 

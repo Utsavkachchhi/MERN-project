@@ -16,6 +16,8 @@ import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
   const carts = useSelector((state) => state.handleCart);
+  const customer = useSelector((state) => state.auths.auths.data.id)
+  console.log("customer",customer);
   console.log("carts",carts);
   const dispatch = useDispatch();
   const navigate = useNavigate();

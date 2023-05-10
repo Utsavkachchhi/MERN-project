@@ -39,7 +39,6 @@ export const searchProduct = (search, products) => {
 };
 
 export const addCart = (product) => {
-  console.log(product);
   return {
     type: ActionTypes.ADD_ITEM,
     payload: product,
