@@ -41,21 +41,21 @@ const Addcart = async (req, res) => {
 const Getcart = async(req,res) => {
     try{
     let cart_data = await cartModel.find({customer:req.params.id,_is_deleted:0})
-    return  await res.status(200).send(cart_data,'cart data retrieve successfully');
-    }
+    return res.status(200).send({ message: 'Cart data retrieved successfully', data: cart_data });
+  }
     catch(error){
         console.log("error",error);
     }
 }
 
-const Updatecart = async(req,res) => {
-    try{
+// const Updatecart = async(req,res) => {
+//     try{
 
-    }
-    catch(error){
-        console.log("error",error);
-    }
-}
+//     }
+//     catch(error){
+//         console.log("error",error);
+//     }
+// }
 
 const Deletecart = async(req,res) => {
     try{
@@ -67,7 +67,7 @@ const Deletecart = async(req,res) => {
 }
 
 
-module.exports = { Addcart, Getcart, Updatecart, Deletecart  };
+module.exports = { Addcart, Getcart, Deletecart  };
 
 
 

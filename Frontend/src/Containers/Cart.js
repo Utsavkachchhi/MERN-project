@@ -10,15 +10,15 @@ import {
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-import { addCart, delCart } from "../redux/actions/productsActions";
+import { addCart, delCart,getCartItem } from "../redux/actions/productsActions";
 import Cartimage from "../assets/cart.jpeg";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Cart = () => {
   const carts = useSelector((state) => state.handleCart);
-  const customer = useSelector((state) => state.auths.auths.data.id)
-  console.log("customer",customer);
-  console.log("carts",carts);
+  const customer = useSelector((state) => state?.auths?.auths?.data.id)
+  // console.log("customer",customer);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleclick = (carts) => {
@@ -31,15 +31,27 @@ const Cart = () => {
    navigate("/product");
   };
   const handleSubmitOrder = () => {
-
   }
+  const getCartData = async () => {
+    await axios.get(`http://localhost:8080/api/cart/cartlist/${customer}`)
+    .then(response => {
+     dispatch(getCartItem(response.data))
+    })
+    .catch(error =>{
+      console.log("error",error);
+    })
+  };
+
+  useEffect(() => {
+    getCartData();
+  }, []);
 
   return (
     <div>
       <h1 style={{ margin: "10px" }}>My Cart</h1>
       <div>
         <Grid>
-          {carts.map((cartsitem) => (
+          {carts?.data?.map((cartsitem) => (
             <Card sx={{ maxWidth: 850, margin: "10px auto" }}>
               <div
                 style={{
@@ -52,7 +64,7 @@ const Cart = () => {
                   component="img"
                   // height="100px"
                   style={{ width: "100px" }}
-                  image={cartsitem.image}
+                  image={cartsitem?.product?.map((product_image) => product_image.image)}
                   alt="green iguana"
                 />
               </div>
@@ -67,11 +79,11 @@ const Cart = () => {
               >
                 <CardContent>
                   <Typography gutterBottom variant="h4" component="div">
-                    {cartsitem.title}
+                    {cartsitem?.product.map((product_title) => product_title.title)}
                   </Typography>
                   <Typography variant="h5" color="text.secondary">
-                    {cartsitem.qty} * ${cartsitem.price} = $
-                    {cartsitem.qty * cartsitem.price}
+                    {cartsitem.product_quantity} * ${cartsitem?.product?.map((product_price) =>product_price.price)} = $
+                    {cartsitem.product_quantity * cartsitem?.product?.map((product_price) =>product_price.price)}
                   </Typography>
                   <Typography variant="h5" color="text.secondary">
                     <AddIcon onClick={() => handleclick(cartsitem)} />

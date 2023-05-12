@@ -45,6 +45,13 @@ export const addCart = (product) => {
   };
 };
 
+export const getCartItem = (data) => {
+  return {
+    type : ActionTypes.SET_CART_ITEM,
+    payload:data
+  }
+}
+
 export const delCart = (product) => {
   return {
     type: ActionTypes.REMOVE_ITEM,

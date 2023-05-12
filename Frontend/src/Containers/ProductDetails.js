@@ -14,7 +14,7 @@ import { Rating, Typography, Button, Grid } from "@mui/material";
 const ProductDetails = () => {
   const { productId } = useParams();
   let product = useSelector((state) => state.product);
-  const { id, image, title, price, category, description, rating } = product;
+  const { _id, image, title, price, category, description, rating } = product;
   const dispatch = useDispatch();
   const [hide, setHide] = useState(true);
   const carts = useSelector((state) => state.handleCart);
@@ -24,13 +24,13 @@ const ProductDetails = () => {
   const [rate, setRate] = useState(0);
 
   useEffect(() => {
-    setHide(carts.find((element) => element.id === id) ? true : false);
+    setHide(carts?.data?.find((element) => element._id === _id) ? true : false);
   }, [carts]);
 
   useEffect(() => {
     // console.log(carts.find(element => element === id) ? true : false)
-    setHide(carts.find((element) => element.id === id) ? true : false);
-  }, id);
+    setHide(carts?.data?.find((element) => element.id === _id) ? true : false);
+  }, _id);
 
 
   const fetchProductDetail = async (id) => {
@@ -48,10 +48,22 @@ const ProductDetails = () => {
       dispatch(removeSelectedProduct());
     };
   }, [productId]);
-
+ 
+  //  console.log("carts",carts)
   const addProduct = (product) => {
-    console.log("product",product);
+    // console.log("product",product);
     dispatch(addCart(product));
+    axios
+    .post("http://localhost:8080/api/cart/addItem", {
+      customer: customer,
+      product_quantity: carts.qty,
+      product : product
+    })
+    .then((response) => {
+      console.log(response);
+
+      // dispatch(addCart(product));
+    });
   };
 
   const removetocart = (carts) => {

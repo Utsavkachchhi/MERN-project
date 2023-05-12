@@ -110,6 +110,10 @@ export const handleCart = (state = cart, action) => {
           return [...state, { ...product, qty: 1 }];
       }
 
+      case ActionTypes.SET_CART_ITEM:
+        return action.payload;
+
+
   case ActionTypes.REMOVE_ITEM:
       const exist1 = state.find((x) => x._id === product._id);
       if (exist1.qty === 1) {
@@ -126,6 +130,7 @@ export const handleCart = (state = cart, action) => {
       if (exist2) {
           return state.filter((x) => x._id !== exist2._id);
       } 
+
     
       
 

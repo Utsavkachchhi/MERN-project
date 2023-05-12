@@ -27,16 +27,17 @@ const Header = () => {
   const dispatch = useDispatch();
 
   const carts = useSelector((state) => state.handleCart);
-
   useEffect(() => {
-    let qty = 0;
-    carts.forEach((element) => {
-      if (element.qty) {
-        qty += element.qty;
+    let product_quantity = 0;
+    carts?.data?.forEach((element) => {
+      if (element.product_quantity
+        ) {
+          product_quantity += element.product_quantity
+        ;
       }
     });
 
-    setProductCount(qty);
+    setProductCount(product_quantity);
   }, [carts]);
 
   useEffect(() => {
