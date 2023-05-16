@@ -8,8 +8,8 @@ const Addcart = async (req, res) => {
       return res.status(400).send('customer is required');
     }
 
-    let cart = await cartModel.findOne({ customer });
-
+    let cart = await cartModel.findOne({ customer: req.body.customer });
+     console.log("cart",cart);
     if (!cart) {
       // Cart doesn't exist for this customer, create a new one
       cart = new cartModel({
@@ -19,11 +19,14 @@ const Addcart = async (req, res) => {
       });
     } else {
       // Cart exists for this customer, update the product if it already exists, otherwise add it to the cart
-      const existingProduct = cart.products.find(p => p.product === product);
+      console.log("cart p",cart.product);
+      console.log("req",req.body);
+      const existingProduct = cart.product.find(p => p._id === product._id);
+      console.log("existingProduct",existingProduct);
       if (existingProduct) {
         existingProduct.product_quantity = product_quantity;
       } else {
-        cart.products.push({ product, product_quantity });
+        cart.product.push({ product, product_quantity });
       }
     }
 

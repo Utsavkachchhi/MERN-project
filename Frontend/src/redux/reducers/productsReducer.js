@@ -94,10 +94,12 @@ export const selectedProductsReducer = (state = {}, { type, payload }) => {
 // }
 
 export const handleCart = (state = cart, action) => {
+  
   const product = action.payload;
 
   switch (action.type) {
       case ActionTypes.ADD_ITEM:
+        console.log("state",state);
           const exist = state.find((x) => x._id === product._id);
         
           if (exist) {

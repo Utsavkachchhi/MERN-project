@@ -13,7 +13,17 @@ const cartSchema = new mongoose.Schema({
     }, 
 
       product:{
-        type: [JSON]
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Product"
+      },
+
+      product_price : {
+        type:Number,
+        required: true
+      },
+
+      product_image : {
+        type:String
       },
 
     is_deleted: {
