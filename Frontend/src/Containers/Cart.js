@@ -17,14 +17,32 @@ import axios from "axios";
 
 const Cart = () => {
   const carts = useSelector((state) => state.handleCart);
-  const customer = useSelector((state) => state?.auths?.auths?.data?.id)
-  // console.log("customer",customer);
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const handleclick = (carts) => {
-    dispatch(addCart(carts));
+  // console.log("carts",carts);
+  const customer = useSelector((state) => state?.auths?.auths?.data?.id);
+  let carts_data = [];
+  carts_data = carts?.cart?.map((cart_product)=> 
+  carts_data.push(cart_product)
+    );
+    useEffect(() =>{
+ 
+    })
+    // console.log("cart",carts_data);
+const dispatch = useDispatch();
+const navigate = useNavigate();
+  const handleclick = (carts_data,carts) => {
+    // dispatch(addCart(carts));
+    axios.post("http://localhost:8080/api/cart/addItem",{
+      customer : customer, 
+      product:carts_data.products, 
+      product_quantity : carts_data.quantity + 1
+    }).then((response)=> console.log("response",response));
   };
   const handleclick2 = (carts) => {
+    // axios.post("http:localhost:8080/api/cart/addItem",{
+    //   customer : customer, 
+    //   product: carts_data.product, 
+    //   product_quantity : carts_data.quantity
+    // }).then((response)=> console.log("response",response));
     dispatch(delCart(carts));
   };
   const handleclick3 = () => {

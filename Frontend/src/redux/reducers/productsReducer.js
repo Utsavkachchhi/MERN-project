@@ -99,7 +99,7 @@ export const handleCart = (state = cart, action) => {
 
   switch (action.type) {
       case ActionTypes.ADD_ITEM:
-        console.log("state",state);
+        // console.log("state",state);
           const exist = state.cart.find((x) => x.product._id === product._id);
         
           if (exist) {

@@ -28,16 +28,16 @@ const Header = () => {
 
   const carts = useSelector((state) => state.handleCart);
   useEffect(() => {
-    let product_quantity = 0;
-    carts?.data?.forEach((element) => {
-      if (element.product_quantity
+    let quantity = 0;
+    carts?.cart?.forEach((element) => {
+      if (element.quantity
         ) {
-          product_quantity += element.product_quantity
+          quantity += element.quantity
         ;
       }
     });
 
-    setProductCount(product_quantity);
+    setProductCount(quantity);
   }, [carts]);
 
   useEffect(() => {
