@@ -17,7 +17,7 @@ import axios from "axios";
 
 const Cart = () => {
   const carts = useSelector((state) => state.handleCart);
-  const customer = useSelector((state) => state?.auths?.auths?.data.id)
+  const customer = useSelector((state) => state?.auths?.auths?.data?.id)
   // console.log("customer",customer);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -35,7 +35,7 @@ const Cart = () => {
   const getCartData = async () => {
     await axios.get(`http://localhost:8080/api/cart/cartlist/${customer}`)
     .then(response => {
-     dispatch(getCartItem(response.data))
+     dispatch(getCartItem(response.data.data))
     })
     .catch(error =>{
       console.log("error",error);
@@ -51,7 +51,7 @@ const Cart = () => {
       <h1 style={{ margin: "10px" }}>My Cart</h1>
       <div>
         <Grid>
-          {carts?.data?.map((cartsitem) => (
+          {carts?.cart?.map((cartsitem) => (
             <Card sx={{ maxWidth: 850, margin: "10px auto" }}>
               <div
                 style={{
@@ -64,7 +64,7 @@ const Cart = () => {
                   component="img"
                   // height="100px"
                   style={{ width: "100px" }}
-                  image={cartsitem?.product?.map((product_image) => product_image.image)}
+                  image={cartsitem?.product?.image}
                   alt="green iguana"
                 />
               </div>
@@ -79,11 +79,11 @@ const Cart = () => {
               >
                 <CardContent>
                   <Typography gutterBottom variant="h4" component="div">
-                    {cartsitem?.product.map((product_title) => product_title.title)}
+                    {cartsitem?.product?.title}
                   </Typography>
                   <Typography variant="h5" color="text.secondary">
-                    {cartsitem.product_quantity} * ${cartsitem?.product?.map((product_price) =>product_price.price)} = $
-                    {cartsitem.product_quantity * cartsitem?.product?.map((product_price) =>product_price.price)}
+                    {cartsitem.quantity} * ${cartsitem?.product?.price} = $
+                    {cartsitem.quantity * cartsitem?.product?.price}
                   </Typography>
                   <Typography variant="h5" color="text.secondary">
                     <AddIcon onClick={() => handleclick(cartsitem)} />
@@ -101,7 +101,7 @@ const Cart = () => {
       </div>
 
       {/* empty cart ui */}
-      {carts.length === 0 && (
+      {carts?.cart?.length === 0 && (
         <div style={{ margin: "25px", textAlign: "center" }}>
           <div>
             <img src={Cartimage} />

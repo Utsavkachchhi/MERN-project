@@ -1,31 +1,17 @@
 const mongoose = require("mongoose");
-
+const Productmodel = require('./Productmodel')
 const cartSchema = new mongoose.Schema({
 
     customer:{
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
       },
-     
-    product_quantity : {
-        type:Number,
-        required: true
-    }, 
-
-      product:{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Product"
-      },
-
-      product_price : {
-        type:Number,
-        required: true
-      },
-
-      product_image : {
-        type:String
-      },
-
+      cart:[
+        {
+          quantity:Number,
+          product: Object,
+        }
+      ],
     is_deleted: {
         type: Number,
         min:0,

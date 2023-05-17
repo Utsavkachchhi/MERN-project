@@ -56,7 +56,7 @@ const ProductDetails = () => {
     axios
     .post("http://localhost:8080/api/cart/addItem", {
       customer: customer,
-      product_quantity: carts.qty,
+      product_quantity: 1,
       product : product
     })
     .then((response) => {

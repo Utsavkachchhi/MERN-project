@@ -100,16 +100,16 @@ export const handleCart = (state = cart, action) => {
   switch (action.type) {
       case ActionTypes.ADD_ITEM:
         console.log("state",state);
-          const exist = state.find((x) => x._id === product._id);
+          const exist = state.cart.find((x) => x.product._id === product._id);
         
           if (exist) {
-              return state.map((x) =>
-                  x._id === product._id ? { ...x, qty: x.qty + 1 } : x
+              return state.cart.map((x) =>
+                  x.product._id === product._id ? { ...x, qty: x.qty + 1 } : x
               );
           } else {
               const product = action.payload;
 
-          return [...state, { ...product, qty: 1 }];
+          //return [...state, { ...product, qty: 1 }];
       }
 
       case ActionTypes.SET_CART_ITEM:
