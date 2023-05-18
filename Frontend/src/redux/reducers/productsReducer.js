@@ -116,10 +116,10 @@ export const handleCart = (state = cart, action) => {
 
 
   case ActionTypes.REMOVE_ITEM:
-    console.log("state",state?.cart?.find((x) => x.product?._id ));
-    console.log("temp",state?.cart[0].product._id);
+    // console.log("state",state?.cart?.map((x) => x.product._id ));
+    // console.log("temp",state?.cart[0].product._id);
     console.log("product",product?.product?._id);
-      const exist1 = state?.cart?.find((x) => x._id === product?.product?._id);
+      const exist1 = state?.cart?.map((x) => x.product._id === product?.product?._id);
       console.log("exist1",exist1);
       if (exist1.qty === 1) {
           return state.filter((x) => x._id !== exist1._id);
