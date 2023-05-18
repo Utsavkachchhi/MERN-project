@@ -19,23 +19,24 @@ const Cart = () => {
   const carts = useSelector((state) => state.handleCart);
   // console.log("carts",carts);
   const customer = useSelector((state) => state?.auths?.auths?.data?.id);
-  let carts_data = [];
-  carts_data = carts?.cart?.map((cart_product)=> 
-  carts_data.push(cart_product)
-    );
+  // let cart_item = [];
+  // cart_item = carts?.cart?.map((cart_product)=> 
+  // console.log("map",cart_product)
+  // // cart_item.push(cart_product)
+  //   );
     useEffect(() =>{
  
     })
-    // console.log("cart",carts_data);
+    // console.log("cart data",carts?.cart);
 const dispatch = useDispatch();
 const navigate = useNavigate();
-  const handleclick = (carts_data,carts) => {
-    // dispatch(addCart(carts));
-    axios.post("http://localhost:8080/api/cart/addItem",{
-      customer : customer, 
-      product:carts_data.products, 
-      product_quantity : carts_data.quantity + 1
-    }).then((response)=> console.log("response",response));
+  const handleclick = (carts) => {
+    dispatch(addCart(carts));
+    // axios.post("http://localhost:8080/api/cart/addItem",{
+    //   customer : customer, 
+    //   product:carts_data.products, 
+    //   product_quantity : carts_data.quantity + 1
+    // }).then((response)=> console.log("response",response));
   };
   const handleclick2 = (carts) => {
     // axios.post("http:localhost:8080/api/cart/addItem",{

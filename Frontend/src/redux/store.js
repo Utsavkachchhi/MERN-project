@@ -16,8 +16,11 @@ const persistConfig = {
 
 // export default store;
 // export {persistor}
-const persistedReducer = persistReducer(persistConfig, reducers)
-let store = createStore(persistedReducer)
+const persistedReducer = persistReducer(persistConfig, reducers);
+ const store = createStore(
+  persistedReducer,{},window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  );
+// let store = createStore(persistedReducer)
 let persistor = persistStore(store)
     
 export default store;

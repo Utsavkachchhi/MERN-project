@@ -55,7 +55,7 @@ const Login = () => {
         password: state.password,
       })
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         dispatch(login(response))
         
         const mytoken = response.data.token;
