@@ -100,7 +100,7 @@ export const handleCart = (state = cart, action) => {
   switch (action.type) {
       case ActionTypes.ADD_ITEM:
           const exist = state?.cart?.product?.find((x) => x._id === product?.product._id);
-          // console.log("exist",exist);
+          console.log("exist",exist);
           if (exist) {
               return state.cart.map((x) =>
                   x.product._id === product._id ? { ...x, qty: x.qty + 1 } : x
@@ -116,12 +116,13 @@ export const handleCart = (state = cart, action) => {
 
 
   case ActionTypes.REMOVE_ITEM:
-    // console.log("state",state?.cart?.map((x) => x.product._id ));
+    console.log("state",state?.cart?.map((x) => x.product._id ));
     // console.log("temp",state?.cart[0].product._id);
     console.log("product",product?.product?._id);
-      const exist1 = state?.cart?.map((x) => x.product._id === product?.product?._id);
+      
+      const exist1 = state?.cart?.find((x) => x.product._id === product?.product?._id);
       console.log("exist1",exist1);
-      if (exist1.qty === 1) {
+      if (exist1.quantity === 1) {
           return state.filter((x) => x._id !== exist1._id);
       } else {
 
