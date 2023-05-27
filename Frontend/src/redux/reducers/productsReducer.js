@@ -49,87 +49,49 @@ export const selectedProductsReducer = (state = {}, { type, payload }) => {
 };
 
 
-// export const handleCart = (state = cart,type) => {
-//   console.log(cart);
-//   const product = type.payload;
-//    switch (type) {
-//      case ActionTypes.ADD_ITEM :
-       
-//      //check if product is Already exit
-
-//      const exist = state.find((x) => x.id === product.id);
-//      if(exist) {
-//        //Increase the Quantity
-//        return state.map((x) =>
-//        x.id === product.id ? {...x, qty:x.qty+1} : x);
-//      }
-//      else{
-//        const product = type.payload;
-//        return [
-//          ...state,
-//          {
-//            ...product,
-//            qty : 1,
-//          }
-//        ]
-//      }
-//      break;
-
-//      case ActionTypes.REMOVE_ITEM: 
-//           const exist1 = state.find((x)=> x.id === product.id);
-//           if(exist1.qty === 1) {
-//             return state.filter((x) => x.id !== exist.id);
-//           }else {
-//             return state.map((x) =>
-//                x.id === product.id ? {...x,qty: x.qty-1} : x
-//                );
-//           }
-//           break;
-
-
-//      default :
-//      return state;
-//        break;
-//    }
-// }
-
 export const handleCart = (state = cart, action) => {
   
   const product = action.payload;
-  // console.log("product",product);
+
   switch (action.type) {
       case ActionTypes.ADD_ITEM:
-          const exist = state?.cart?.product?.find((x) => x._id === product?.product._id);
-          console.log("exist",exist);
-          if (exist) {
-              return state.cart.map((x) =>
-                  x.product._id === product._id ? { ...x, qty: x.qty + 1 } : x
-              );
-          } else {
-              const product = action.payload;
-
-          //return [...state, { ...product, qty: 1 }];
+        const existingItem = state.cart.find((item) => item.product._id === product.product._id);
+          if (existingItem) {
+            return {
+              ...state,
+            cart: state.cart.map((item) =>
+            item.product._id === product.product._id ? { ...item, quantity: item.quantity + 1 } : item
+          ),
+          }
+        }
+           else {
+            return {
+              ...state,
+              cart: [...state.cart, { ...product, quantity: 1 }],
       }
+    }
 
       case ActionTypes.SET_CART_ITEM:
         return action.payload;
 
 
-  case ActionTypes.REMOVE_ITEM:
-    console.log("state",state?.cart?.map((x) => x.product._id ));
-    // console.log("temp",state?.cart[0].product._id);
-    console.log("product",product?.product?._id);
-      
-      const exist1 = state?.cart?.find((x) => x.product._id === product?.product?._id);
-      console.log("exist1",exist1);
-      if (exist1.quantity === 1) {
-          return state.filter((x) => x._id !== exist1._id);
-      } else {
+ 
+      case ActionTypes.REMOVE_ITEM:
+          const exist1 = state?.cart?.find((x) => x.product._id === product.product._id);
 
-          return state.map((x) =>
-              x._id === product._id ? { ...x, qty: x.qty - 1 } : x
-          );
-      }
+          if (exist1 && exist1.quantity === 1) {
+            return {
+              ...state,
+              cart: state.cart.filter((x) => x.product._id !== exist1.product._id)
+            };
+          } else {
+            return {
+              ...state,
+              cart: state.cart.map((x) =>
+                x.product._id === product.product._id ? { ...x, quantity: x.quantity - 1 } : x
+              )
+            };
+          }
     case ActionTypes.REMOVE_ITEM_CART:
       console.log(cart);
       const exist2 = state.find((x) => x._id === product._id);

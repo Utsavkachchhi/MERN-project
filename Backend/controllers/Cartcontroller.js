@@ -14,7 +14,7 @@ const Addcart = async (req, res) => {
       // Cart doesn't exist for this customer, create a new one
       cart = new cartModel({
         customer,
-        cart:[{quantity: product_quantity, product:product}],
+        cart:[{quantity: Number(product_quantity), product:product}],
       });
     } else {
       const existingProduct = cart.cart.find(p => p.product._id === product._id);
