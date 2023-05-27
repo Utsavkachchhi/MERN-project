@@ -9,7 +9,7 @@ const Addcart = async (req, res) => {
     }
 
     let cart = await cartModel.findOne({ customer: req.body.customer });
-     console.log("cart",cart);
+    //  console.log("cart",cart);
     if (!cart) {
       // Cart doesn't exist for this customer, create a new one
       cart = new cartModel({
