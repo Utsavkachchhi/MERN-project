@@ -9,6 +9,7 @@ import { Container, CssBaseline, FormControlLabel } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import axios from "axios";
+import Swal from 'sweetalert2'
 import { useNavigate } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
@@ -60,13 +61,31 @@ const Signup = () => {
         "password" : state.password
       })
       .then((response) => {
-        // const mytoken = response.data.token;
-        // localStorage.setItem("mytoken", mytoken);
-        localStorage.setItem("userid", response.data._id);
-        if(response.status === 200){
-        navigate("/home")
+        const mytoken = response?.data?.data?.token;
+        localStorage.setItem("mytoken", mytoken);
+        localStorage.setItem("userid", response?.data?.data?.id);
+        
+        if(response.data.success == true){
+          Swal.fire({
+            // position: 'top-end',
+            icon: 'success',
+            html: '<b>' + response.data.message + '</b>',
+            showConfirmButton: false,
+            timer: 3500
+          });
+          navigate("/home")
         }
-        console.log("response",response);
+
+        if(response.data.success == false){
+          Swal.fire({
+            title: 'Error!',
+            html: '<b>' + response.data.message + '</b>',
+            icon: 'error',
+            timer: 4000,
+            confirmButtonText: 'ok'
+          })
+        }
+
       })
     };
 

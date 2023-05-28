@@ -15,7 +15,8 @@ import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux';
+import Swal from 'sweetalert2';
 import { login } from "../redux/actions/productsActions";
 
 function Copyright(props) {
@@ -58,13 +59,34 @@ const Login = () => {
         // console.log(response);
         dispatch(login(response))
         
-        const mytoken = response.data.token;
+        const mytoken = response?.data?.data?.token;
         localStorage.setItem("mytoken", mytoken);
-        localStorage.setItem("userid", state.id);
+        localStorage.setItem("userid", response?.data?.data?.id);
 
         if (mytoken) {
           navigate("/home", { state: state.userid });
         }
+
+        if(response.data.success == true){
+          Swal.fire({
+            // position: 'top-end',
+            icon: 'success',
+            html: '<b>' + response.data.message + '</b>',
+            showConfirmButton: false,
+            timer: 3500
+          })
+        }
+
+        if(response.data.success == false){
+          Swal.fire({
+            title: 'Error!',
+            html: '<b>' + response.data.message + '</b>',
+            icon: 'error',
+            timer: 4000,
+            confirmButtonText: 'ok'
+          })
+        }
+        console.log("response",response.data);
       });
   };
 
@@ -92,7 +114,7 @@ const Login = () => {
             sm={4}
             md={7}
             sx={{
-              backgroundImage: "url(https://source.unsplash.com/random)",
+              backgroundImage: "url(https://api.api-ninjas.com/v1/randomimage?category=nature)",
               backgroundRepeat: "no-repeat",
               backgroundColor: (t) =>
                 t.palette.mode === "light"

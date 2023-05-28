@@ -12,6 +12,10 @@ const orderSchema = new mongoose.Schema({
         type: [JSON]
       },
 
+      total: {
+        type:Number
+      },
+
     is_deleted: {
         type: Number,
         min:0,

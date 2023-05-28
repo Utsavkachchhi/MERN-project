@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { searchProduct } from "../redux/actions/productsActions";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import axios from "axios";
+import Swal from 'sweetalert2'
 import LogoutIcon from "@mui/icons-material/Logout";
 import LoginIcon from "@mui/icons-material/Login";
 
@@ -30,13 +31,11 @@ const Header = () => {
   useEffect(() => {
     let quantity = 0;
     carts?.cart?.cart?.forEach((element) => {
-      if (element.quantity
-        ) {
-          quantity += element.quantity
-        ;
+      if (element.quantity) {
+          quantity += element.quantity;
       }
     });
-
+   
     setProductCount(quantity);
   }, [carts]);
 
@@ -48,11 +47,8 @@ const Header = () => {
 
   const inputHandler = (e) => {
     e.preventDefault();
-    //  console.log("searchvalue",e.target.value);
-    //  console.log("products",products);
     setSearch(e.target.value);
-
-    //  searchProduct(search,products);
+  //  searchProduct(search,products);
   };
 
   const location = useLocation();
@@ -67,19 +63,27 @@ const Header = () => {
     const token = localStorage.getItem("mytoken");
     const userid = localStorage.getItem("userid");
     // console.log(token,userid);
-    const data = {
-      empNo: userid,
-      token: token,
-    };
+    // const data = {
+    //   empNo: userid,
+    //   token: token,
+    // };
 
-    axios
-      .post("http://103.138.234.244:9067/api/Login/LogOutLog", data)
-      .then((response) =>
-        console.log("Status Code is : ", response.data.StatusCode)
-      );
+    // axios
+    //   .post("http://103.138.234.244:9067/api/Login/LogOutLog", data)
+    //   .then((response) =>
+    //     console.log("Status Code is : ", response.data.StatusCode)
+    //   );
     localStorage.removeItem("mytoken");
     localStorage.removeItem("userid");
+
     setLoggedin(false);
+    Swal.fire({
+      // position: 'top-end',
+      icon: 'success',
+      html: '<b>' + 'you have successfully logged out' + '</b>',
+      showConfirmButton: false,
+      timer: 3500
+    }); 
     navigate("/");
   };
 

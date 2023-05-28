@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-import { addCart, delCart,getCartItem } from "../redux/actions/productsActions";
+import { addCart, delCart,getCartItem,placeOrder } from "../redux/actions/productsActions";
 import Cartimage from "../assets/cart.jpeg";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -18,32 +18,48 @@ import axios from "axios";
 const Cart = () => {
   const carts = useSelector((state) => state.handleCart);
   console.log("carts",carts);
-  const customer = useSelector((state) => state?.auths?.auths?.data?.id);
- 
+  const customer = useSelector((state) => state?.auths?.auths?.data?.data?.id);
     useEffect(() =>{
  
     })
-const dispatch = useDispatch();
-const navigate = useNavigate();
-  const handleclick = async (cartItem) => {
-    const {  product, quantity } = cartItem;
-    
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  
+  const handleclick = async (carts) => {
     await axios.post("http://localhost:8080/api/cart/addItem", {
-    customer:customer,
-    product,
-    quantity: parseInt(quantity), // Ensure quantity is a valid number
-  });
-    getCartData();
-    
-  };
-  const handleclick2 = (carts) => {
+     customer:customer,
+     product:carts.product,
+     product_quantity: 1
 
+    });
+    
+    // getCartData();
+      dispatch(addCart(carts))
+  }
+  const handleclick2 = async(carts) => {
+    await axios.post("http://localhost:8080/api/cart/removeItem", {
+     customer:customer,
+     product:carts.product,
+     product_quantity: 1
+    });
     dispatch(delCart(carts));
   };
+
+  const updateCartQuantity = async (carts, newQuantity) => {
+    await axios.post("http://localhost:8080/api/cart/addItem", {
+      customer: customer,
+      product: carts.product,
+      product_quantity: newQuantity,
+    });
+  };
+  
   const handleclick3 = () => {
    navigate("/product");
   };
-  const handleSubmitOrder = () => {
+
+  const handleSubmitOrder = (carts) => {
+    dispatch(placeOrder(carts.cart));
+    
   }
   const getCartData = async () => {
     await axios.get(`http://localhost:8080/api/cart/cartlist/${customer}`)

@@ -8,6 +8,7 @@ const initialState = {
 
 };
 const cart = [];
+const order = [];
 
 export const authReducer = (state=initialState,{type,payload}) => {
    switch(type){
@@ -112,12 +113,22 @@ export const filterproductreducer = (state = initialState, { type, payload }) =>
 
   switch(type){
     case  ActionTypes.FILTER_ITEM_BY_CATEGORY:
-     
-      
-    
-    
-    
-    
-   
-        }
+     }
 };
+
+export const handleOrder = (state = initialState, action) => {
+  switch (action.type) {
+    case ActionTypes.PLACE_ORDER:
+      const items = action.payload;
+     
+      return {
+        ...state,
+        order: items,
+      };
+
+    default:
+      return state;
+  }
+};
+
+

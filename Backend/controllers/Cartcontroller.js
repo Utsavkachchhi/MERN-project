@@ -9,7 +9,6 @@ const Addcart = async (req, res) => {
     }
 
     let cart = await cartModel.findOne({ customer: req.body.customer });
-    //  console.log("cart",cart);
     if (!cart) {
       // Cart doesn't exist for this customer, create a new one
       cart = new cartModel({
@@ -40,8 +39,6 @@ const Addcart = async (req, res) => {
 };
 
 
-
-
 const Getcart = async(req,res) => {
     try{
     let cart_data = await cartModel.findOne({customer:req.params.id,_is_deleted:0})
@@ -52,14 +49,32 @@ const Getcart = async(req,res) => {
     }
 }
 
-// const Updatecart = async(req,res) => {
-//     try{
+const RemovecartItem = async(req,res) => {
+    try{
+      const { customer, product, product_quantity } = req.body;
+      
+      if (!customer) {
+        return res.status(400).send('customer is required');
+      }
 
-//     }
-//     catch(error){
-//         console.log("error",error);
-//     }
-// }
+      let cart = await cartModel.findOne({ customer: req.body.customer });
+      const existingProduct = cart.cart.find(p => p.product._id === product._id);
+      if (existingProduct) {
+        cart.cart = cart.cart.map(item => {
+          let newItem = item;
+          if(item.product._id === product._id){
+            newItem = {...newItem, quantity: newItem.quantity - product_quantity}
+          }
+          return {...newItem}
+        })
+      }
+      await cart.save();
+      return res.json(cart);
+    }
+    catch(error){
+        console.log("error",error);
+    }
+}
 
 const Deletecart = async(req,res) => {
     try{
@@ -71,7 +86,7 @@ const Deletecart = async(req,res) => {
 }
 
 
-module.exports = { Addcart, Getcart, Deletecart  };
+module.exports = { Addcart, Getcart,RemovecartItem, Deletecart  };
 
 
 
