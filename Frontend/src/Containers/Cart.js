@@ -10,14 +10,13 @@ import {
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-import { addCart, delCart,getCartItem,placeOrder } from "../redux/actions/productsActions";
+import { addCart, clearProductFromCart, delCart,getCartItem,placeOrder } from "../redux/actions/productsActions";
 import Cartimage from "../assets/cart.jpeg";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Cart = () => {
   const carts = useSelector((state) => state.handleCart);
-  console.log("carts",carts);
   const customer = useSelector((state) => state?.auths?.auths?.data?.data?.id);
     useEffect(() =>{
  
@@ -57,9 +56,17 @@ const Cart = () => {
    navigate("/product");
   };
 
-  const handleSubmitOrder = (carts) => {
+  const handleSubmitOrder = async (carts) => {
+    await axios.post("http://localhost:8080/api/order/placeOrder", {
+      customer: customer,
+      product: carts.product,
+      total_price: carts.product.price * carts.quantity ,
+      total_quantity : carts.quantity
+    });
+
     dispatch(placeOrder(carts.cart));
-    
+    dispatch(clearProductFromCart(carts?.product._id));
+
   }
   const getCartData = async () => {
     await axios.get(`http://localhost:8080/api/cart/cartlist/${customer}`)
@@ -119,7 +126,7 @@ const Cart = () => {
                     <RemoveIcon onClick={() => handleclick2(cartsitem)} />
                   </Typography>
                   <Typography>
-                  <Button variant="contained" onClick={() => handleSubmitOrder()}>Place order</Button>
+                  <Button variant="contained" onClick={() => handleSubmitOrder(cartsitem)}>Place order</Button>
 
                   </Typography>
                 </CardContent>

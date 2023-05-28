@@ -62,17 +62,7 @@ const Header = () => {
   const LogoutApi = () => {
     const token = localStorage.getItem("mytoken");
     const userid = localStorage.getItem("userid");
-    // console.log(token,userid);
-    // const data = {
-    //   empNo: userid,
-    //   token: token,
-    // };
-
-    // axios
-    //   .post("http://103.138.234.244:9067/api/Login/LogOutLog", data)
-    //   .then((response) =>
-    //     console.log("Status Code is : ", response.data.StatusCode)
-    //   );
+    
     localStorage.removeItem("mytoken");
     localStorage.removeItem("userid");
 
@@ -113,18 +103,25 @@ const Header = () => {
         >
           <ul>
             <li>
-              <NavLink to="/">Home</NavLink>
+              <NavLink to="/home">Home</NavLink>
             </li>
 
             <li>
               <NavLink to="/product">Product</NavLink>
             </li>
+
+            <li>
+              <NavLink to="/order">Orders</NavLink>
+            </li>
+
             <li>
               <NavLink to="/about">About Us</NavLink>
             </li>
+
             <li>
               <NavLink to="/contact">Contact Us</NavLink>
             </li>
+
             <li>
               {/* <div className={ {active} ? 'search displayNone' : 'search' }> */}
 
@@ -220,6 +217,9 @@ const Header = () => {
 
             <li>
               <NavLink to="/product">Product</NavLink>
+            </li>
+            <li>
+              <NavLink to="/order">Orders</NavLink>
             </li>
             <li>
               <NavLink to="/about">About Us</NavLink>

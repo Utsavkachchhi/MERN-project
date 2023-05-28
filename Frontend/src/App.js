@@ -12,6 +12,7 @@ import ProductListing from "./Containers/ProductListing";
 import Breadcrumb from "./Component/Breadcrumb";
 import Cart from "./Containers/Cart";
 import Signup from "./Component/Signup";
+import Order from "./Component/Orders";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route path="/product" element={<ProductListing />} />
           <Route path="/product/:productId" element={<ProductDetails />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/order" element={<Order/>} />
         </Routes>
       </BrowserRouter>
     </div>

@@ -7,16 +7,19 @@ const orderSchema = new mongoose.Schema({
         ref: "User"
       },
  
-
-      product:{
+     product:{
         type: [JSON]
       },
 
-      total: {
+      total_quantity:{
+        type:Number
+     },
+      
+      total_price: {
         type:Number
       },
 
-    is_deleted: {
+      is_deleted: {
         type: Number,
         min:0,
         max:1,

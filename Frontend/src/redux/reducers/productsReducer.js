@@ -100,6 +100,13 @@ export const handleCart = (state = cart, action) => {
           return state.filter((x) => x._id !== exist2._id);
       } 
 
+      case ActionTypes.CLEAR_PRODUCT_FROM_CART:
+      const productId = action.payload;
+      return {
+        ...state,
+        cart: state.cart.filter((item) => item.product._id !== productId)
+      };
+
     
       
 
@@ -130,5 +137,6 @@ export const handleOrder = (state = initialState, action) => {
       return state;
   }
 };
+
 
 

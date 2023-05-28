@@ -86,7 +86,6 @@ const Login = () => {
             confirmButtonText: 'ok'
           })
         }
-        console.log("response",response.data);
       });
   };
 

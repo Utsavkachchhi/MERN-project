@@ -89,3 +89,11 @@ export const placeOrder = (items) => {
     payload : items
   }
 };
+
+//clear product in cart
+export const clearProductFromCart = (productId) => {
+  return {
+    type: ActionTypes.CLEAR_PRODUCT_FROM_CART,
+    payload: productId
+  };
+};
