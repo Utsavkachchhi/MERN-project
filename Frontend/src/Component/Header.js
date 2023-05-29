@@ -28,17 +28,17 @@ const Header = () => {
   const dispatch = useDispatch();
 
   const carts = useSelector((state) => state.handleCart);
-  console.log("carts in header",carts);
+
   useEffect(() => {
     let quantity = 0;
-    carts?.cart?.cart?.forEach((element) => {
+    carts?.cart?.forEach((element) => {
       if (element.quantity) {
           quantity += element.quantity;
       }
     });
-   
     setProductCount(quantity);
   }, [carts]);
+
 
   useEffect(() => {
     if (search == null || search == "")
@@ -58,7 +58,7 @@ const Header = () => {
     return location.pathname === "/product"
       ? setShowSearch(true)
       : setShowSearch(false);
-  }, [location.pathname]);
+  }, [location]);
 
   const LogoutApi = () => {
     const token = localStorage.getItem("mytoken");
@@ -82,7 +82,7 @@ const Header = () => {
     if (localStorage.getItem("mytoken")) {
       setLoggedin(true);
     }
-  }, localStorage.getItem("mytoken"));
+  }, [localStorage.getItem("mytoken")]);
 
   // LogoutApi();
   return (
@@ -258,11 +258,11 @@ const Header = () => {
 
             <li>
             {loggedin ? <Link to="/cart">
-                <Badge badgeContent="25" color="secondary">
+                <Badge badgeContent={productCount} color="secondary">
                   <ShoppingCartIcon sx={{ fontSize: 25 }} />
                 </Badge>
               </Link>  :  <Link to="/login">
-                <Badge badgeContent="25" color="secondary">
+                <Badge badgeContent={productCount} color="secondary">
                   <ShoppingCartIcon sx={{ fontSize: 25 }} />
                 </Badge>
               </Link>}
