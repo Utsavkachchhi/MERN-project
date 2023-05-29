@@ -28,6 +28,7 @@ const Header = () => {
   const dispatch = useDispatch();
 
   const carts = useSelector((state) => state.handleCart);
+  console.log("carts in header",carts);
   useEffect(() => {
     let quantity = 0;
     carts?.cart?.cart?.forEach((element) => {
@@ -257,11 +258,11 @@ const Header = () => {
 
             <li>
             {loggedin ? <Link to="/cart">
-                <Badge badgeContent={productCount} color="secondary">
+                <Badge badgeContent="25" color="secondary">
                   <ShoppingCartIcon sx={{ fontSize: 25 }} />
                 </Badge>
               </Link>  :  <Link to="/login">
-                <Badge badgeContent={productCount} color="secondary">
+                <Badge badgeContent="25" color="secondary">
                   <ShoppingCartIcon sx={{ fontSize: 25 }} />
                 </Badge>
               </Link>}
