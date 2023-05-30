@@ -1,7 +1,7 @@
 const User = require("../model/Usermodel");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const env = require("dotenv");
+require("dotenv").config();
 //Add new User
 
 const AddUser = async (req, res) => {
@@ -53,23 +53,14 @@ const NewToken = async (req, res) => {
 
   const user = await User.findOne({ email: req.body.email });
 
-  console.log(req.body);
 
-  const secret = process.env.secret;
-
+  // const secret = process.env.JWT_SECRET_KEY;
   if (!user) {
     return res.status(200).send({success: false, message: 'user not found!'});
   }
-
   if (user && bcrypt.compareSync(req.body.password, user.password)) {
-    const token = jwt.sign(
-      {
-        userId: user.id,
-      },
-      "secret",
-      { expiresIn: "1d" }
-    );
-    // res.status(200).send({id:user._id,email: user.email, token: token,mobile:user.mobile });
+    const token = jwt.sign({userId: user.id},`${process.env.JWT_SECRET_KEY}`,{ expiresIn: "1d" });
+  // res.status(200).send({id:user._id,email: user.email, token: token,mobile:user.mobile });
     res.status(200).send({
       success: true,
       message: 'Login successful!',
