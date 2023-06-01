@@ -20,17 +20,18 @@ const ProductDetails = () => {
   const carts = useSelector((state) => state.handleCart);
   const customer = useSelector((state) => state?.auths?.auths?.data?.data?.id);
   const [loggedIn, setLoggedIn] = useState(false);
-  const [matchingProducts, setMatchingProducts] = useState([]);
   const [rate, setRate] = useState(0);
 
-  useEffect(() => {
-    setHide(carts?.data?.find((element) => element._id === _id) ? true : false);
-  }, [carts]);
+
+  console.log("crats",carts?.cart);
+  console.log("product",product);
+  console.log("compare",carts?.cart?.map((element) => element?.product._id === product._id));
+  
 
   useEffect(() => {
-    setHide(carts?.data?.find((element) => element.id === _id) ? true : false);
-  }, _id);
-
+    const cartItemExists = carts?.cart?.some(element => element.product._id === product._id);
+    setHide(cartItemExists);
+  }, [carts, product._id]);
 
   const fetchProductDetail = async (id) => {
     const response = await axios
@@ -67,7 +68,13 @@ const ProductDetails = () => {
        dispatch(addCart(payload))
   };
 
-  const removetocart = (carts) => {
+  const removetocart = async (carts) => {
+    // await axios.post("http://localhost:8080/api/cart/removeItem", {
+    //   customer:customer,
+    //   product:carts.product,
+    //   product_quantity: 1
+    //  });
+    //  dispatch(delCart(carts));
     dispatch(removeitemCart(carts));
   };
 
@@ -164,43 +171,44 @@ const ProductDetails = () => {
                   Add to cart
                 </Button>
 
-                {loggedIn ? (
-                  <Link to="/cart">
-                    <Button
-                      variant="contained"
-                      color="secondary"
-                      size="large"
-                      style={{ marginLeft: "15px" }}
-                    >
-                      Go to cart
-                    </Button>
-                  </Link>
-                ) : (
-                  <Link to="/">
-                    <Button
-                      variant="contained"
-                      color="secondary"
-                      size="large"
-                      style={{ marginLeft: "15px" }}
-                    >
-                      Go to cart
-                    </Button>
-                  </Link>
-                )}
+             
 
-                {hide}
-                {hide ? (
-                  <Button
-                    variant="contained"
-                    size="large"
-                    style={{ marginLeft: "15px" }}
-                    onClick={() => removetocart(product)}
-                  >
-                    Remove from cart
-                  </Button>
-                ) : (
-                  <div></div>
-                )}
+        {loggedIn ? (
+        hide ? (
+          <Link to="/cart">
+            <Button
+              variant="contained"
+              color="secondary"
+              size="large"
+              style={{ marginLeft: "15px" }}
+            >
+              Go to cart
+            </Button>
+          </Link>
+        ) : null
+      ) : (
+        <Link to="/">
+          <Button
+            variant="contained"
+            color="secondary"
+            size="large"
+            style={{ marginLeft: "15px" }}
+          >
+            Go to cart
+          </Button>
+        </Link>
+      )}
+
+            {hide && (
+              <Button
+                variant="contained"
+                size="large"
+                style={{ marginLeft: "15px" }}
+                onClick={() => removetocart(product)}
+              >
+                Remove from cart
+              </Button>
+            )}
               </div>
             </Grid>
           </Grid>

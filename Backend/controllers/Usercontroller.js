@@ -54,13 +54,12 @@ const NewToken = async (req, res) => {
   const user = await User.findOne({ email: req.body.email });
 
 
-  // const secret = process.env.JWT_SECRET_KEY;
+  const secret = process.env.JWT_SECRET_KEY;
   if (!user) {
     return res.status(200).send({success: false, message: 'user not found!'});
   }
   if (user && bcrypt.compareSync(req.body.password, user.password)) {
-    const token = jwt.sign({userId: user.id},`${process.env.JWT_SECRET_KEY}`,{ expiresIn: "1d" });
-  // res.status(200).send({id:user._id,email: user.email, token: token,mobile:user.mobile });
+    const token = jwt.sign({userId: user.id},'secret',{ expiresIn: "1d" });
     res.status(200).send({
       success: true,
       message: 'Login successful!',
