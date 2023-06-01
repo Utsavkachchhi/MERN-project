@@ -18,9 +18,9 @@ const ProductDetails = () => {
   const dispatch = useDispatch();
   const [hide, setHide] = useState(true);
   const carts = useSelector((state) => state.handleCart);
-  const customer = useSelector((state) => state.auths.auths.data.id)
-  
+  const customer = useSelector((state) => state?.auths?.auths?.data?.data?.id);
   const [loggedIn, setLoggedIn] = useState(false);
+  const [matchingProducts, setMatchingProducts] = useState([]);
   const [rate, setRate] = useState(0);
 
   useEffect(() => {
@@ -28,7 +28,6 @@ const ProductDetails = () => {
   }, [carts]);
 
   useEffect(() => {
-    // console.log(carts.find(element => element === id) ? true : false)
     setHide(carts?.data?.find((element) => element.id === _id) ? true : false);
   }, _id);
 
@@ -49,21 +48,23 @@ const ProductDetails = () => {
     };
   }, [productId]);
  
-  //  console.log("carts",carts)
-  const addProduct = (product) => {
-    // console.log("product",product);
-    dispatch(addCart(product));
-    axios
-    .post("http://localhost:8080/api/cart/addItem", {
-      customer: customer,
-      product_quantity: 1,
-      product : product
-    })
-    .then((response) => {
-      console.log(response);
 
-      // dispatch(addCart(product));
-    });
+  const addProduct = async (product) => {
+    let payload = {
+      customer:customer,
+      product:product,
+      product_quantity: 1
+    }
+    console.log("payload",payload);
+    await axios.post("http://localhost:8080/api/cart/addItem", {
+      customer:customer,
+      product:product,
+      product_quantity: 1
+ 
+     });
+     
+    //  // getCartData();
+       dispatch(addCart(payload))
   };
 
   const removetocart = (carts) => {
